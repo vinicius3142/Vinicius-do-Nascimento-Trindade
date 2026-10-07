@@ -1,0 +1,12 @@
+package AlugarCarros;
+
+public class Popular extends Veiculo {
+    public Popular(String marca, String placa, String modelo, int ano, String cor, double valorDiaria) {
+        super(marca, placa, modelo, ano, cor, valorDiaria);
+    }
+
+    @Override
+    public double calcularDiaria() {
+        return getValorDiaria(); 
+    }
+}
