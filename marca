@@ -1,0 +1,42 @@
+package AlugarCarros;
+
+import java.util.Objects;
+
+public class Marca {
+
+    private String nome;
+
+    public Marca(String n) {
+        this.setNome(n);
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        if (nome == null || nome.isEmpty()) {
+            throw new IllegalArgumentException("Nome da marca não pode ser vazio.");
+        }
+        this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Marca)) return false;
+        Marca outra = (Marca) obj;
+        return Objects.equals(this.nome, outra.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
+    }
+}
+
