@@ -1,0 +1,12 @@
+package AlugarCarros;
+
+public class Sedan extends Veiculo {
+    public Sedan(String marca, String placa, String modelo, int ano, String cor, double valorDiaria) {
+        super(marca, placa, modelo, ano, cor, valorDiaria);
+    }
+
+    @Override
+    public double calcularDiaria() {
+        return getValorDiaria() * 1.2; // 
+    }
+}
