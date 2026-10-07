@@ -1,0 +1,12 @@
+package AlugarCarros;
+
+public class SUV extends Veiculo {
+    public SUV(String marca, String placa, String modelo, int ano, String cor, double valorDiaria) {
+        super(marca, placa, modelo, ano, cor, valorDiaria);
+    }
+
+    @Override
+    public double calcularDiaria() {
+        return getValorDiaria() * 1.5; 
+    }
+}
