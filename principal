@@ -1,0 +1,156 @@
+package AlugarCarros;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+import java.time.LocalDate;
+
+@SuppressWarnings("unused")
+public class Principal {
+    public static void main(String[] args) {
+        LinkedList<Veiculo> veiculos = new LinkedList<>();
+        LinkedList<Cliente> clientes = new LinkedList<>();
+        LinkedList<Locacao> locacoes = new LinkedList<>();
+        Scanner sc = new Scanner(System.in);
+
+        int opcao = -1;
+
+        while (opcao != 0) {
+            System.out.println("\n========== LOCADORA DE VEICULOS ==========");
+            System.out.println("| 1 - Cadastrar veículo                   |");
+            System.out.println("| 2 - Cadastrar cliente                   |");
+            System.out.println("| 3 - Cadastrar locação                   |");
+            System.out.println("| 4 - Listar veículos                     |");
+            System.out.println("| 5 - Listar clientes                     |");
+            System.out.println("| 6 - Listar locações                     |");
+            System.out.println("| 0 - Sair                                |");
+            System.out.println("===========================================");
+            System.out.print("Digite sua opção: ");
+
+            try {
+                opcao = Integer.parseInt(sc.nextLine());
+
+                switch (opcao) {
+                    case 1: cadastrarVeiculo(sc, veiculos); break;
+                    case 2: cadastrarCliente(sc, clientes); break;
+                    case 3: cadastrarLocacao(sc, clientes, veiculos, locacoes); break;
+                    case 4: listarVeiculos(veiculos); break;
+                    case 5: listarClientes(clientes); break;
+                    case 6: listarLocacoes(locacoes); break;
+                    case 0: System.out.println("Sistema encerrado."); break;
+                    default: System.out.println("Opção inválida.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Digite apenas números.");
+            }
+        }
+        sc.close();
+    }
+
+    // Cadastro de veículos
+    private static void cadastrarVeiculo(Scanner sc, LinkedList<Veiculo> veiculos) {
+        System.out.println("\nEscolha o tipo de veículo:");
+        System.out.println("1 - Popular");
+        System.out.println("2 - Sedan");
+        System.out.println("3 - SUV");
+        System.out.print("Opção: ");
+        int tipo = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Digite a placa: ");
+        String placa = sc.nextLine();
+        System.out.print("Digite a cor: ");
+        String cor = sc.nextLine();
+        System.out.print("Digite a marca: ");
+        String marca = sc.nextLine();
+        System.out.print("Digite o modelo: ");
+        String modelo = sc.nextLine();
+        System.out.print("Digite o ano: ");
+        int ano = Integer.parseInt(sc.nextLine());
+        System.out.print("Digite o valor da diária: R$ ");
+        double valorDiaria = Double.parseDouble(sc.nextLine().replace(",", "."));
+
+        Veiculo v = null;
+        switch (tipo) {
+            case 1: v = new Popular(marca, placa, modelo, ano, cor, valorDiaria); break;
+            case 2: v = new Sedan(marca, placa, modelo, ano, cor, valorDiaria); break;
+            case 3: v = new SUV(marca, placa, modelo, ano, cor, valorDiaria); break;
+            default: System.out.println("Tipo inválido."); return;
+        }
+        veiculos.add(v);
+        System.out.println("Veículo cadastrado com sucesso!");
+    }
+
+    private static void listarVeiculos(LinkedList<Veiculo> veiculos) {
+        if (veiculos.isEmpty()) System.out.println("Nenhum veículo cadastrado.");
+        else {
+            System.out.println("\n=== Lista de Veículos ===");
+            for (Veiculo v : veiculos) System.out.println(v);
+        }
+    }
+
+    
+    private static void cadastrarCliente(Scanner sc, LinkedList<Cliente> clientes) {
+        System.out.print("Digite o nome: ");
+        String nome = sc.nextLine();
+        System.out.print("Digite o CPF: ");
+        String cpf = sc.nextLine();
+        System.out.print("Digite o telefone: ");
+        String telefone = sc.nextLine();
+        System.out.print("Digite o email: ");
+        String email = sc.nextLine();
+
+        Cliente c = new Cliente(nome, cpf, telefone, email);
+        clientes.add(c);
+        System.out.println("Cliente cadastrado com sucesso!");
+    }
+
+    private static void listarClientes(LinkedList<Cliente> clientes) {
+        if (clientes.isEmpty()) System.out.println("Nenhum cliente cadastrado.");
+        else {
+            System.out.println("\n=== Lista de Clientes ===");
+            for (Cliente c : clientes) System.out.println(c);
+        }
+    }
+
+    // Cadastro de locações
+    private static void cadastrarLocacao(Scanner sc, LinkedList<Cliente> clientes,
+                                         LinkedList<Veiculo> veiculos,
+                                         LinkedList<Locacao> locacoes) {
+        if (clientes.isEmpty() || veiculos.isEmpty()) {
+            System.out.println("É necessário ter clientes e veículos cadastrados.");
+            return;
+        }
+
+        System.out.println("\nEscolha o cliente:");
+        for (int i = 0; i < clientes.size(); i++) {
+            System.out.println(i + " - " + clientes.get(i));
+        }
+        int clienteIndex = Integer.parseInt(sc.nextLine());
+
+        System.out.println("\nEscolha o veículo:");
+        for (int i = 0; i < veiculos.size(); i++) {
+            System.out.println(i + " - " + veiculos.get(i));
+        }
+        int veiculoIndex = Integer.parseInt(sc.nextLine());
+
+        System.out.print("Data início (AAAA-MM-DD): ");
+        LocalDate inicio = LocalDate.parse(sc.nextLine());
+
+        System.out.print("Data fim (AAAA-MM-DD): ");
+        LocalDate fim = LocalDate.parse(sc.nextLine());
+
+        Locacao l = new Locacao(clientes.get(clienteIndex), veiculos.get(veiculoIndex), inicio, fim);
+        locacoes.add(l);
+
+        System.out.println("Locação cadastrada com sucesso!");
+    }
+
+    private static void listarLocacoes(LinkedList<Locacao> locacoes) {
+        if (locacoes.isEmpty()) System.out.println("Nenhuma locação cadastrada.");
+        else {
+            System.out.println("\n=== Lista de Locações ===");
+            for (Locacao l : locacoes) { 
+            	System.out.println(l);
+            }
+
