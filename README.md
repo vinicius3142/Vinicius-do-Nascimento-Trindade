@@ -1,8 +1,8 @@
 # Sistema de Locação de Veículos
 
 ## Autor
-- **Nome:** Seu Nome Completo  
-- **Matrícula:** 123456  
+- **Nome:** vinícius do nascimento trindade
+-  
 
 ---
 
